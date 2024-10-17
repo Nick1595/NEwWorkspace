@@ -1,6 +1,7 @@
 
-
 import java.io.ByteArrayInputStream;
+
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -9,12 +10,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Base64;
 import java.util.List;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.Base64;
-
-
-import com.dao.Dao;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -23,12 +18,17 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Base64;
 
 
 
-@WebServlet("/imageSave5")
+@WebServlet("/imageSave")
 @MultipartConfig(maxFileSize=16177216)
-public class imageSave5 extends HttpServlet {
+public class imageSave extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
    
@@ -45,23 +45,27 @@ public class imageSave5 extends HttpServlet {
 		String user = "root";
 		String pass = "";
 		
-
+		/*
+		 * Part p = request.getPart("p_image"); System.out.println(p);
+		 */
+		//Part p = request.getPart("p_image");
 		
-		String id3 = request.getParameter("id");
-		int id4 = Integer.parseInt(id3);
+	
 		String name = request.getParameter("p_name");
 		String price = request.getParameter("p_price");
 		String description = request.getParameter("p_des");
-		String image = request.getParameter("p_image");
-		String email = request.getParameter("email");
+		Part p = request.getPart("p_image");
+		InputStream io = p.getInputStream();
 		
-		String base64ImageData = image.split(",")[1];
-		 byte[] imageData = Base64.getDecoder().decode(base64ImageData);
-		 InputStream io = new ByteArrayInputStream(imageData);
+//		String base64ImageData = image.split(",")[1];
+//		 byte[] imageData = Base64.getDecoder().decode(base64ImageData);
+//		 InputStream io = new ByteArrayInputStream(imageData);
 		
 		
-
 		
+		
+		
+	
 		
 		int r = 0;
 		Connection con = null;
@@ -72,31 +76,24 @@ public class imageSave5 extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 				con = DriverManager.getConnection(usl, user, pass);
 				
-				PreparedStatement ps = con.prepareStatement("insert into placeorder(p_name,p_price,p_des,p_image,email,id,status) values(?,?,?,?,?,?,?)");
+				PreparedStatement ps = con.prepareStatement("insert into products(p_name,p_price,p_des,p_image) values(?,?,?,?)");
 				
-				
-				String status = "Pending";
+				//InputStream io = new ByteArrayInputStream(image.getBytes(StandardCharsets.UTF_8));
+
+				//InputStream io = m.getP_image();
 				
 				ps.setString(1, name);
-				ps.setString(2, price);
+				ps.setString(2, price);				
 				ps.setString(3, description);
 				ps.setBlob(4,io);
-				ps.setString(5,email);
-				ps.setInt(6,id4);
-				ps.setString(7,status);
 				
 				
 				r = ps.executeUpdate();
 			
 				if(r>0)
 				{
-					System.out.println("done");
 					
-					Dao.deletefromcart(id4);
-					
-					Thread.sleep(1000);
-					
-					response.sendRedirect("cart.jsp");
+					response.sendRedirect("admindashboard.jsp");
 				}
 				else				{
 				System.out.println("error");

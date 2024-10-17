@@ -1,7 +1,3 @@
-
-<%@page import="com.model.CartModel"%>
-<%@page import="com.dao.Dao"%>
-<%@page import="com.model.ProductModel"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -9,93 +5,36 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
-<jsp:include page="header.jsp"/>
-	<%
-		if(session.getAttribute("project")!=null)
-		{
-			String id = request.getParameter("id");
-			int id2 = Integer.parseInt(id);
-			System.out.print(id2);
-			CartModel m = Dao.getcartindexwise(id2);
-			
-			
-			
-	%>
-		
-			<br>
-			<br>
-			<center>
-			<h2><%=m.getP_name() %></h2>
-			<h3><%=m.getP_price()%> </h3>
-			<h3><%=m.getP_des() %></h3>
-			<img src="data:image/jpeg;base64,<%=m.getP_image()%>" width="350px" height="300px" />
-	
-	
-	<form action="imageSave5" method="post" enctype="multipart/form-data" class="requires-validation" novalidate>
+   <form id="paymentForm">
+        <input type="hidden" name="amount" id="amount" value="100"> <!-- Amount in paise -->
+        <input type="hidden" name="currency" id="currency" value="INR">
+        <button type="button" id="rzp-button1">Pay Now</button>
+    </form>
 
+    <script>
+        var options = {
+            "key": "rzp_test_hWS7k6CBHBiHw3", // Enter the API Key ID generated from the Dashboard
+            "amount": document.getElementById("amount").value, // Amount is in currency subunits. Hence, 50000 means 50000 paise
+            "currency": document.getElementById("currency").value,
+            "name": "Test",
+            "description": "Test Transaction",
+            "handler": function (response) {
+                alert("Payment successful. Payment ID: " + response.razorpay_payment_id);
+                // You can redirect to a success page or handle success here
+            },
+            "theme": {
+                "color": "#F37254"
+            }
+        };
 
-							
-                            
-                             <div class="col-md-12">
-                               <input class="form-control" type="hidden" name="id" placeholder="Product Name" value="<%=m.getId()%>" required>
-                            </div>
-                            
-                            <div class="col-md-12">
-                               <input class="form-control" type="hidden" name="p_name" placeholder="Product Name" value="<%=m.getP_name() %>" required>
-                            </div>
-                            
-                            <div class="col-md-12">
-                               <input class="form-control" type="hidden" name="p_price" placeholder="Product Price" value="<%=m.getP_price() %>" required>
-                            </div>
-                            
-                            <div class="col-md-12">
-                               <input class="form-control" type="hidden" name="p_des" placeholder="Product Description" value="<%=m.getP_des() %>" readonly="readonly">
-                            </div>
-                            
-                        
-                            
-                             <div class="col-md-12">
-                               <input class="form-control" type="hidden" name="email" placeholder="Product Price" value="<%=session.getAttribute("email") %>" required>
-                            </div>
-                            
-                            
-                            <br>
-                            <div class="col-md-12">
-                            	<input type="hidden" name="p_image" value="data:image/jpeg;base64,<%=m.getP_image() %>" /> 
-                             </div>
-                             
-                             
-                               
-                  			<br>
-                  
-
-                            <div class="form-button mt-3">
-                                <button id="submit" type="submit" class="btn btn-primary">Place Your Order</button>
-                            </div>
-                        </form>
-	
-	<% 		
-		}
-		else
-		{
-
-	%>
-			<br>
-			<center>
-					
-					<b><p style="color:red;font-family: sans-serif; font-size: 25px;">Please Login First!!</p></b>
-				</center>
-
-				<br>
-				<br>
-			<%@ include file="signin.jsp"%>
-
-		<% 
-		}
-		%>
-
-<jsp:include page="footer.jsp"/>
+        document.getElementById('rzp-button1').onclick = function (e) {
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-
+rmar  niku  iyj  thi  thui awsst this is y new 
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>

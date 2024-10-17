@@ -1,8 +1,6 @@
-
-
 package com.model;
 
-public class CartModel
+public class WishlistModel
 {
 	int id;
 	String p_name,p_price,p_des,p_image,email;

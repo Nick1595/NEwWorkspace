@@ -78,7 +78,7 @@
               <a class="nav-link" href="adminplacedorder.jsp" style="color: white;">Placed Order</a>
             </li>
              <li class="nav-item">
-              <a class="nav-link" href="admincontacted.jssp" style="color: white;">Queries</a>
+              <a class="nav-link" href="admincontacted.jsp" style="color: white;">Feedback</a>
             </li>
              <li class="nav-item">
               <a class="nav-link" href="adminlogout.jsp" style="color: red;">Logout</a>
@@ -116,7 +116,7 @@
          %>		
          	
          <tr>
-				<td><%=pm.getP_id() %></td><td><%=pm.getP_name() %></td><td><%=pm.getP_price() %></td><td><%=pm.getP_des() %></td><td><img src="data:image/jpeg;base64,<%=pm.getP_image()%>" width="150px" height="200px" /></td><td><%=pm.getEmail() %></td><td><%=pm.getId() %></td><td><%=pm.getStatus() %></td>
+				<td><%=pm.getP_id() %></td><td><%=pm.getP_name() %></td><td><%=pm.getP_price() %></td><td><%=pm.getP_dec() %></td><td><img src="data:image/jpeg;base64,<%=pm.getP_image()%>" width="150px" height="200px" /></td><td><%=pm.getEmail() %></td><td><%=pm.getId() %></td><td><%=pm.getStatus() %></td>
 			</tr>	
          <% 		
          	}

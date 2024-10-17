@@ -1,5 +1,3 @@
-
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,10 +7,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Base64;
 import java.util.List;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.Base64;
-
 
 import com.dao.Dao;
 
@@ -26,9 +20,9 @@ import jakarta.servlet.http.HttpSession;
 
 
 
-@WebServlet("/imageSave5")
+@WebServlet("/imageSave4")
 @MultipartConfig(maxFileSize=16177216)
-public class imageSave5 extends HttpServlet {
+public class imageSave4 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
    
@@ -45,7 +39,10 @@ public class imageSave5 extends HttpServlet {
 		String user = "root";
 		String pass = "";
 		
-
+		/*
+		 * Part p = request.getPart("p_image"); System.out.println(p);
+		 */
+		//Part p = request.getPart("p_image");
 		
 		String id3 = request.getParameter("id");
 		int id4 = Integer.parseInt(id3);
@@ -59,10 +56,6 @@ public class imageSave5 extends HttpServlet {
 		 byte[] imageData = Base64.getDecoder().decode(base64ImageData);
 		 InputStream io = new ByteArrayInputStream(imageData);
 		
-		
-
-		
-		
 		int r = 0;
 		Connection con = null;
 	
@@ -72,18 +65,17 @@ public class imageSave5 extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 				con = DriverManager.getConnection(usl, user, pass);
 				
-				PreparedStatement ps = con.prepareStatement("insert into placeorder(p_name,p_price,p_des,p_image,email,id,status) values(?,?,?,?,?,?,?)");
+				PreparedStatement ps = con.prepareStatement("insert into cart(p_name,p_price,p_des,p_image,email) values(?,?,?,?,?)");
 				
-				
-				String status = "Pending";
+				//InputStream io = new ByteArrayInputStream(image.getBytes(StandardCharsets.UTF_8));
+
+				//InputStream io = m.getP_image();
 				
 				ps.setString(1, name);
-				ps.setString(2, price);
+				ps.setString(2, price);				
 				ps.setString(3, description);
 				ps.setBlob(4,io);
 				ps.setString(5,email);
-				ps.setInt(6,id4);
-				ps.setString(7,status);
 				
 				
 				r = ps.executeUpdate();
@@ -92,7 +84,7 @@ public class imageSave5 extends HttpServlet {
 				{
 					System.out.println("done");
 					
-					Dao.deletefromcart(id4);
+					Dao.deletefromwishlist(id4);
 					
 					Thread.sleep(1000);
 					

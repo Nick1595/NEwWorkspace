@@ -1,11 +1,9 @@
-
-
 package com.model;
 
-public class CartModel
-{
+public class ProductModel {
+
 	int id;
-	String p_name,p_price,p_des,p_image,email;
+	String p_name,p_price,p_des,p_image;
 	public int getId() {
 		return id;
 	}
@@ -36,12 +34,5 @@ public class CartModel
 	public void setP_image(String p_image) {
 		this.p_image = p_image;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
 	
 }
